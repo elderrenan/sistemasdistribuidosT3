@@ -1,6 +1,7 @@
 # sistemasdistribuidosT3
 
 Transações
+
 Descreva uma aplicação simples (cliente-servidor ou de processos pares) que tenha duas operações (exceto operações bancárias) que precisam ser executadas dentro de uma transação. Lembrando que duas operações precisam estar dentro de uma transação quando é necessária garantir que essas operações sejam executadas com sucesso ou que nenhuma seja executada (propriedade de atomicidade). Por exemplo, uma transferência bancária entre duas contas é composta por duas operações: (1) retirada de um valor de uma conta bancária; (2) inserção desse valor na outra conta bancária. Essas operações devem ser inseridas em uma transação para que não ocorra o seguinte: (i) a operação (1) ser executada com sucesso e a operação (2) falhar; ou (ii) a operação (1) falhar e a operação (2) ser executada com sucesso (valor 0,5).
 
 Implemente essa aplicação ou apresente um pseudocódigo explicando (valor 2,0):
