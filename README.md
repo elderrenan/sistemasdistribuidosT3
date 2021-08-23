@@ -15,6 +15,12 @@ Detalhe os métodos necessários para funcionamento do protocolo (valor
 - como a propriedade de Durabilidade é garantida (valor 0,4);
 - como a propriedade de Consistência é garantida. Lembrar aqui que processos podem falhar no meio de transações (valor 0,4).
 
-Obs.: a aplicação não pode utilizar banco de dados e nem APIs para gerenciar
-transações.
+Obs.:
+
+- a aplicação não pode utilizar banco de dados e nem APIs para gerenciar transações.
+
+- Vocês podem continuar com a mesma aplicação de caronas, se quiserem. Nesse caso, considerem: 
+ - Que o cadastro de uma carona vai exigir um número mínimo de passageiros para ocorrer. Se não atingir este número mínimo, a carona/viagem não ocorrerá;
+ - O pagamento como forma de confirmação;
+ - Que o usuário que oferece a carona deseja ser notificado apenas quando o número mínimo de passageiros for atingido.
  
