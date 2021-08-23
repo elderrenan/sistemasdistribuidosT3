@@ -14,7 +14,7 @@ Detalhe os métodos necessários para funcionamento do protocolo (valor
 - como a propriedade de Isolamento é garantida (valor 0,4);
 - como a propriedade de Durabilidade é garantida (valor 0,4);
 - como a propriedade de Consistência é garantida. Lembrar aqui que processos podem falhar no meio de transações (valor 0,4).
-- 
+
 Obs.: a aplicação não pode utilizar banco de dados e nem APIs para gerenciar
 transações.
  
