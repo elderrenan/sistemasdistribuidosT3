@@ -8,12 +8,11 @@ Implemente essa aplicação ou apresente um pseudocódigo explicando (valor 2,0)
 
 - o funcionamento do protocolo two-phase commit para comunicação entre os processos, explicando quem são os participantes e o coordenador.
 
-Detalhe os métodos necessários para funcionamento do protocolo (valor
-0,4);
-- como a propriedade de Atomicidade é garantida (valor 0,4);
-- como a propriedade de Isolamento é garantida (valor 0,4);
-- como a propriedade de Durabilidade é garantida (valor 0,4);
-- como a propriedade de Consistência é garantida. Lembrar aqui que processos podem falhar no meio de transações (valor 0,4).
+  - Detalhe os métodos necessários para funcionamento do protocolo (valor 0,4);
+  - como a propriedade de Atomicidade é garantida (valor 0,4);
+  - como a propriedade de Isolamento é garantida (valor 0,4);
+  - como a propriedade de Durabilidade é garantida (valor 0,4);
+  - como a propriedade de Consistência é garantida. Lembrar aqui que processos podem falhar no meio de transações (valor 0,4).
 
 Obs.:
 
