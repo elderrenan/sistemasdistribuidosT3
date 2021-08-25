@@ -24,3 +24,9 @@ hs_err_pid*
 
 #Google Drive
 *.ini
+
+/Servidor/target/
+/Cliente/nbproject/private/
+/Cliente/nbbuild/
+/Cliente/dist/
+/apache-tomcat-7.0.76

@@ -1,0 +1,240 @@
+<html>
+<head>
+<title>Caronas</title>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="js/funcoes.js"></script>
+<script>
+	
+	function adicionarUsuario() {   
+	
+		//addContact(formToJSON(), function(data, textStatus, jqXHR) {
+	    cadastraUsuario($('#nome').val(), $('#telefone').val(), function(data, textStatus, jqXHR) {
+	        alert('Cadastrado com sucesso!');
+	        
+	    	var url = rootURL + "/notificaCliente/" + $('#nome').val() + "/" + $('#telefone').val();
+	    	
+	    	var source = new EventSource(url);
+	    	source.onerror=function(event)	{
+                    console.log("error [" + source.readyState + "]");
+	    	};
+
+	    	source.onopen = function(event){
+	    	    console.log("canal de eventos aberto!");
+	    	};
+	    	
+	    	source.addEventListener(
+                    "message",
+                    function(event){
+                        console.log(event.data);
+                        alert(event.data);
+                    },
+                    false
+	    	);	        
+	        
+	    });
+	    
+	    $("#nome").prop('disabled', true);
+	    $("#telefone").prop('disabled', true);
+	    $("#btnSave").prop('disabled', true);
+	
+	    $("#actions").css({
+	        "visibility" : "visible",
+	        "display" : "block"
+	    });	    
+	    
+	    $("#formC").css({
+	        "visibility" : "visible",
+	        "display" : "block"
+	    });
+	    
+	    $("#formI").css({
+	        "visibility" : "visible",
+	        "display" : "block"
+	    });	 	    
+	    
+	}
+
+	function buscaCarona() {
+		listaCaronas($("#searchOrigem").val(), $("#searchDestino").val(), $("#searchData").val(), renderList);
+	}		
+		
+	function adicionaCarona(root) {
+	    var index = $(root).children().length;
+	    var html = "<span id='itemC" + index + "' >";
+	    html += "<br/><label>Origem: </label> ";
+	    html += "<input type='text' id='carOrigem" + index + "'> ";
+	    html += "<label>Destino: </label> ";
+	    html += "<input type='text' id='carDestino" + index + "'> ";
+	    html += "<label>Data: </label> ";
+	    html += "<input type='text' id='carData" + index + "'> ";
+	    html += "<label>Passageiros: </label> ";
+	    html += "<input type='text' id='carPassageiros" + index + "'> ";    
+	    html += "<input type='button' id='btCadrC" + index + "'value='Cadastrar' onclick='cadastrarCarona("+ index + ",itemC" + index + ")'> ";
+	    html += "<input type='button' id='btCancC" + index + "'value='Cancelar' disabled onclick='cancelarCarona(\"" + root + " #itemC" + index + "\"," + index + ")'><br/>"
+	    html += "</span>";
+	    
+	    inputs = $(root).append(html);
+	}
+	
+	function cadastrarCarona(index, root) {
+		$("#btCadrC"+index).prop('disabled', true);
+		$("#btCancC"+index).prop('disabled', false);
+		cadastraCarona($("#nome").val(), $("#telefone").val(), $("#carOrigem"+index).val(), $("#carDestino"+index).val(), $("#carData"+index).val(), $("#carPassageiros"+index).val(), function(data, textStatus, jqXHR) {
+	        alert('Carona cadastrada com sucesso!');
+	        $(root).append("<input id='idCarona" + index + "' style='visibility: hidden; display: none;' name='"+ data+ "' value='" + data + "'>");
+	    });
+	}
+	
+	function cancelarCarona(root, index) {
+		cancelaCarona($("#idCarona"+index).val(), function(data, textStatus, jqXHR) {
+	        alert('Carona cancelada com sucesso!')
+	    });
+		$(root).remove();
+	}	
+	
+	function adicionaInteresse(root) {
+	    var index = $(root).children().length;
+	    var html = "<span id='itemI" + index + "' >";
+	    html += "<br/><label>Origem: </label> ";
+	    html += "<input type='text' id='intOrigem" + index + "'> ";
+	    html += "<label>Destino: </label> ";
+	    html += "<input type='text' id='intDestino" + index + "'> ";
+	    html += "<label>Data: </label> ";
+	    html += "<input type='text' id='intData" + index + "'> ";    
+	    html += "<input type='button' id='btCadrI" + index + "' value='Cadastrar' onclick='cadastrarInteresse("+ index + ",itemI" + index + ")'> ";
+	    html += "<input type='button' id='btCancI" + index + "' value='Cancelar'  disabled onclick='cancelarInteresse(\"" + root + " #itemI" + index + "\"," + index + ")'><br/>"
+	    html += "</span>";
+	    
+	    inputs = $(root).append(html);
+	}		
+	
+	function cadastrarInteresse(index, root) {
+		$("#btCadrI"+index).prop('disabled', true);
+		$("#btCancI"+index).prop('disabled', false);
+		cadastraInteresse($("#nome").val(), $("#telefone").val(), $("#intOrigem"+index).val(), $("#intDestino"+index).val(), $("#intData"+index).val(), function(data, textStatus, jqXHR) {
+	        alert('Interesse registrado com sucesso!');
+	        $(root).append("<input id='idInteresse" + index + "' style='visibility: hidden; display: none;' name='"+ data+ "' value='" + data + "'>");
+	    });
+	}
+	
+	function cancelarInteresse(root, index) {
+		cancelaInteresse($("#idInteresse"+index).val(), function(data, textStatus, jqXHR) {
+	        alert('Interesse cancelado com sucesso!')
+	    });
+		$(root).remove();
+	}	
+	
+	function renderList(data) {
+		
+		console.log(data);
+	    /*var html = "";
+	
+	    html += "<ul>";
+	    console.log(JSON.stringify(data));
+	    for (var i = 0; i < data.length; i++) {
+	        var result = data[i];
+	        console.log(JSON.stringify(result));
+	        
+	        html += "<li>Nome: " + result[0] + ". Telefone: " + result[1] + ".</li>";
+	
+	    }
+	
+	    html += "</ul>";*/
+	    $("#result").html("<ul></ul>");
+	    $("#result").html(data);
+	}	
+	
+	function loadContact(id) {
+	    findById(id, function(data) {
+	        fillForm(data);
+	        $("#form").css({
+	            "visibility" : "visible",
+	            "display" : "block"
+	        });
+	        $("#fieldset").html(" Editando cliente ");
+	    });
+	}
+	
+	function clearForm() {
+	    $("#fieldset").html("");
+	    fillForm({
+	        "name" : ""
+	    });
+	    
+	    $("#form").css({
+	        "visibility" : "hidden",
+	        "display" : "none"
+	    });
+	    clearForm();
+	}
+
+	$(function() {
+	    
+	    //findAll(renderList);
+	
+	    $("#searchName").keyup(function(event) {
+	        if (event.keyCode == 13) {
+	            $("#btnSearch").click();
+	        }
+	    });
+	
+	});
+</script>
+</head>
+<body>
+    <h1>Caronas</h1>
+    <hr/>
+    <div id="form">
+		<form>
+			<fieldset>
+			    <legend id="fieldset"> Cadastro de Usu�rio </legend>
+			    <input id="id" type="hidden">
+			    <label for="nome">Nome: </label>
+			   	<input id="nome" type="text" name="nome"/> 
+			    <label for="telefone"> Telefone: </label>
+			    <input id="telefone" type="text" name="telefone"/>  
+				<input id="btnSave" type="button" value="Cadastrar" onclick="adicionarUsuario();">
+			</fieldset>
+		</form>
+	</div>   
+    <br/>
+    <div id="actions" style="visibility: hidden; display: none;">
+        <fieldset>
+            <legend id="fieldsetB">Buscar Caronas</legend>
+            <label>Origem: </label>
+            <input type="text" id="searchOrigem">
+            <label>Destino: </label>
+            <input type="text" id="searchDestino">
+            <label>Data: </label>
+            <input type="text" id="searchData">                        
+            <input type="button" id="btnSearch" value="Buscar" onclick="buscaCarona();">
+        </fieldset>
+    </div>
+    <br/>
+    <div id="result"><ul></ul></div>
+    <br/>
+    <div id="formC" style="visibility: hidden; display: none;">
+        <form>
+            <fieldset>
+                <legend id="fieldsetC">Oferecer caronas</legend>
+				<br/> 
+				<input type="button" value="Nova carona" onclick="adicionaCarona('#caronas')">
+		        <div id="caronas"></div>
+		        <br/>
+		    </fieldset>
+        </form>
+    </div>
+    <div id="formI" style="visibility: hidden; display: none;">
+        <form>
+            <fieldset>
+                <legend id="fieldsetI">Registrar interesse em caronas</legend>
+				<br/> 
+				<input type="button" value="Novo interesse" onclick="adicionaInteresse('#interesses')">
+		        <div id="interesses"></div>
+		        <br/>
+		    </fieldset>
+        </form>
+    </div> 
+    <br/>    
+</body>
+</html>
